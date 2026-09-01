@@ -642,7 +642,7 @@ static void calculate_total_space(_In_ device_extension* Vcb, _Out_ uint64_t* to
         dfactor = 1;
     }
 
-    sectors_used = (Vcb->superblock.bytes_used >> Vcb->sector_shift) * nfactor / dfactor;
+    sectors_used = Vcb->superblock.bytes_used >> Vcb->sector_shift;
 
     *totalsize = (Vcb->superblock.total_bytes >> Vcb->sector_shift) * nfactor / dfactor;
     *freespace = sectors_used > *totalsize ? 0 : (*totalsize - sectors_used);
@@ -3645,6 +3645,7 @@ static NTSTATUS load_chunk_root(_In_ _Requires_lock_held_(_Curr_->tree_lock) dev
                 c->cache_loaded = false;
                 c->changed = false;
                 c->space_changed = false;
+                c->using_fst_bitmaps = false;
                 c->balance_num = 0;
 
                 c->chunk_item = ExAllocatePoolWithTag(NonPagedPool, tp.item->size, ALLOC_TAG);

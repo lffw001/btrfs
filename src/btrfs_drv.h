@@ -155,6 +155,13 @@ typedef struct _DUPLICATE_EXTENTS_DATA {
     LARGE_INTEGER ByteCount;
 } DUPLICATE_EXTENTS_DATA, *PDUPLICATE_EXTENTS_DATA;
 
+typedef struct _DUPLICATE_EXTENTS_DATA32 {
+    UINT32 FileHandle;
+    LARGE_INTEGER SourceFileOffset;
+    LARGE_INTEGER TargetFileOffset;
+    LARGE_INTEGER ByteCount;
+} DUPLICATE_EXTENTS_DATA32, *PDUPLICATE_EXTENTS_DATA32;
+
 #define FSCTL_DUPLICATE_EXTENTS_TO_FILE CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 209, METHOD_BUFFERED, FILE_WRITE_ACCESS)
 
 typedef struct _FSCTL_GET_INTEGRITY_INFORMATION_BUFFER {
@@ -557,6 +564,7 @@ typedef struct {
     bool cache_loaded;
     bool changed;
     bool space_changed;
+    bool using_fst_bitmaps;
     uint64_t last_alloc;
     uint16_t last_stripe;
     LIST_ENTRY partial_stripes;
